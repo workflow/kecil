@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{origWidth}}" height="{{origHeight}}" viewBox="0 0 {{origWidth}} {{origHeight}}">
+    <filter id="blur" color-interpolation-filters="sRGB">
+        <feGaussianBlur stdDeviation="30" edgeMode="duplicate"/>
+        <feComponentTransfer>
+            <feFuncA type="discrete" tableValues="1 1"/>
+        </feComponentTransfer>
+    </filter>
+    <image filter="url(#blur)" xlink:href="{{resizedDataURI}}" x="0" y="0" height="100%" width="100%"/>
+</svg>

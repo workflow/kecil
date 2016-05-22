@@ -1,0 +1,21 @@
+{
+  "name": "kecil",
+  "version": "0.0.1",
+  "description": "Kecil Image Awesomization",
+  "repository": "git@github.com:workflow/kecil.git",
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-browser-sync": "^2.0.0",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-less": "^1.0.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-newer": "^1.1.0",
+    "less": "^2.5.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
