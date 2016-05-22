@@ -60,3 +60,6 @@ If you are not using any of Kecil's wrappers, you will need to replace the `<img
 Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the JSON response.
     
 Then run `node app.js` on the server and see the magic happen!
+
+![Kecil Logo](https://cloud.githubusercontent.com/assets/8395474/15454561/f2104a32-206e-11e6-957a-d5b660e95d8b.png)   
+(The Kecil Logo)
