@@ -12,12 +12,12 @@ This will help load your webpage a lot faster while keeping the finished layout 
 
 Kecil can be used in a couple of different ways:
 
-1. Use Kecil's hosted solution for your webpage with implementation wrappers:
+### Use Kecil's hosted solution for your webpage with implementation wrappers:
 
 For Wordpress users, we have created a plugin you can download [here](https://something.com)
 Ruby on Rails users can use a gem you can get [here](https://something.com)
 
-2. Host Kecil on your own server
+### Host Kecil on your own server
 
     Clone repository
     
