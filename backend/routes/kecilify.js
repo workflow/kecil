@@ -63,6 +63,7 @@ function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight, md5Has
         image#main {
             opacity: 0;
             transition: opacity 2s;
+            -webkit-transition: opacity 2s;
         }
 
         image#main.loaded {

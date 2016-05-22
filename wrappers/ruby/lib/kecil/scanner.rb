@@ -12,7 +12,7 @@ module Kecil
       @assets = html.scan(/(<img\s([^>]*)src="([^"]+)"([^>]*?)\/?>)/).map { |(tag, attr_pre, url, attr_post)|
         uri = Addressable::URI.parse(url)
         uri = @origin.join(uri) if uri.relative?
-        asset = Asset.new(uri, tag: tag, cache_dir: options[:cache_dir], attr_pre: attr_pre, attr_post: attr_post)
+        asset = Asset.new(uri, tag: tag, cache_dir: options[:cache_dir], attributes: [attr_pre.strip, attr_post.strip].join(" "))
         [asset.key, asset]
       }.to_h
     end

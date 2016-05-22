@@ -4,10 +4,11 @@ module Kecil
   class Asset
     attr_accessor :tag, :svg, :width, :height
     
-    def initialize(uri, tag: nil, cache_dir: nil)
+    def initialize(uri, tag: nil, cache_dir: nil, attributes: "")
       @uri = uri
       @tag = tag
       @cache_dir = cache_dir
+      @attributes = attributes
       
       # Import cached svg
       @svg = File.open(cache_path).read if cached?
@@ -32,7 +33,7 @@ module Kecil
     end
     
     def object
-      "<object type=\"image/svg+xml\" data=\"data:image/svg+xml;base64,#{svg_encoded}\"></object>"
+      "<object #{@attributes.strip} type=\"image/svg+xml\" data=\"data:image/svg+xml;base64,#{svg_encoded}\"></object>"
     end
     
     def cache_filename
