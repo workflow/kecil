@@ -19,7 +19,18 @@ function fetchImage(img, callback) {
   });
 }
 
-function createThumbnail(img, extension, md5Hash, callback) {
+function getSize(img, extension, md5Hash, callback) {
+  const gmImg = gm(img);
+  gmImg.size((err, size) => {
+    if (err) {
+      console.log(err);
+    } else {
+      callback(img, extension, md5Hash, size.width, size.height);
+    }
+  });
+}
+
+function createThumbnail(img, extension, md5Hash, origWidth, origHeight, callback) {
   const gmImg = gm(img);
   gmImg.resize(40);
   gmImg.noProfile();
@@ -27,11 +38,11 @@ function createThumbnail(img, extension, md5Hash, callback) {
     if (err) {
       console.log(err)
     }
-    callback(img, extension, md5Hash);
+    callback(img, extension, md5Hash, origWidth, origHeight);
   });
 }
 
-function extractBase64(img, fileExtension, md5Hash, callback) {
+function extractBase64(img, fileExtension, md5Hash, origWidth, origHeight, callback) {
   const options = { localFile: true, string: true };
 
   base64.base64encoder(img, options, (err, image) => {
@@ -39,11 +50,11 @@ function extractBase64(img, fileExtension, md5Hash, callback) {
       console.log(err);
     }
     const base64ImgString = 'data:image/' + fileExtension + ';base64,';
-    callback(base64ImgString + image, md5Hash);
+    callback(base64ImgString + image, md5Hash, origWidth, origHeight);
   });
 }
 
-function getGeneratedSvg(base64String) {
+function getGeneratedSvg(base64String, origWidth, origHeight) {
   const theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere = `
 
 <?xml version="1.0"?>
@@ -85,21 +96,23 @@ const appRouter = function(app) {
 
     imgs.forEach((img) => {
       fetchImage(img, (imgPath, extension, md5Hash) => {
-        createThumbnail(imgPath, extension, md5Hash, (img, extension, md5Hash) => {
-          extractBase64(img, extension, md5Hash, (base64StringYo, md5Hash) => {
-            const weWillSendThisBackNowCepatCepat = getGeneratedSvg(base64StringYo);
+        getSize(imgPath, extension, md5Hash, (imgPath, extension, md5Hash, origWidth, origHeight) => {
+          createThumbnail(imgPath, extension, md5Hash, origWidth, origHeight, (img, extension, md5Hash, origWidth, origHeight) => {
+            extractBase64(img, extension, md5Hash, origWidth, origHeight, (base64StringYo, md5Hash, origWidth, origHeight) => {
+              const weWillSendThisBackNowCepatCepat = getGeneratedSvg(base64StringYo, origWidth, origHeight);
 
-            response.images.push({
-              key: md5Hash,
-              svg: weWillSendThisBackNowCepatCepat,
-              width: 200,
-              height: 200,
+              response.images.push({
+                key: md5Hash,
+                svg: weWillSendThisBackNowCepatCepat,
+                width: origWidth,
+                height: origHeight,
+              });
+              imgsProcessed++;
+
+              if (imgsProcessed === imgs.length) {
+                res.send(JSON.stringify(response));
+              }
             });
-            imgsProcessed++;
-
-            if (imgsProcessed === imgs.length) {
-              res.send(JSON.stringify(response));
-            }
           });
         });
       });

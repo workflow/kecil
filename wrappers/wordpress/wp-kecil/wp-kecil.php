@@ -1,24 +1,23 @@
 <?php
 
 /**
- * The plugin bootstrap file
  *
  * This file is read by WordPress to generate the plugin information in the plugin
  * admin area. This file also includes all of the dependencies used by the plugin,
  * registers the activation and deactivation functions, and defines a function
  * that starts the plugin.
  *
- * @link              http://example.com
+ * @link              http://github.com/workflow/kecil
  * @since             1.0.0
  * @package           WP_Kecil
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Kecil Optimized Image Preloading
- * Plugin URI:        http://example.com/wp-kecil/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Plugin Name:       Kecil: Image Lazy Loader with Blurred Previews
+ * Plugin URI:        http://github.com/workflow/kecil/
+ * Description:       Kecil is an implementation that allows you to achieve the "blurry image loading effect" (as seen on Medium) with very little effort.
  * Version:           1.0.0
- * Author:            Your Name or Your Company
- * Author URI:        http://example.com/
+ * Author:            Dropz & Magloft
+ * Author URI:        http://bit.ly/1qCL5Nn
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       wp-kecil
@@ -66,10 +65,6 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-wp-kecil.php';
  *
  * @since    1.0.0
  */
-function run_plugin_name() {
 
-	$plugin = new WP_Kecil();
-	$plugin->run();
-}
-
-run_plugin_name();
+$Kecil = new WP_Kecil();
+$Kecil->run();

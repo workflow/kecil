@@ -43,6 +43,12 @@ The **API REST endpoint** /kecilify will consume a JSON-formatted **POST request
     "images": ["http://…jpg", ]
 }
 ```
+
+An example can be found using: 
+
+```CURL
+$ curl -d @backend/sample/sample-api-request.json --header "Content-Type: application/json" http://localhost:3000/kecilify
+```
     
 … And will return a JSON with the format:
     
@@ -52,8 +58,14 @@ The **API REST endpoint** /kecilify will consume a JSON-formatted **POST request
 }
 ```
     
-If you are not using any of Kecil's wrappers, you will need to replace the `<img ... />` with an object element in your html like so: `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">` 
+If you are not using any of Kecil's wrappers, you will need to replace the `<img ... />` with an object element in your HTML like so: 
+````html
+<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">
+````
     
 Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the JSON response.
     
 Then run `node app.js` on the server and see the magic happen!
+
+![Kecil Logo](https://cloud.githubusercontent.com/assets/8395474/15454561/f2104a32-206e-11e6-957a-d5b660e95d8b.png)   
+(The Kecil Logo)

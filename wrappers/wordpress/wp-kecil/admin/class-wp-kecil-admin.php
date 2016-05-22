@@ -3,7 +3,7 @@
 /**
  * The admin-specific functionality of the plugin.
  *
- * @link       http://example.com
+ * @link       http://github.com/workflow/kecil
  * @since      1.0.0
  *
  * @package    WP_Kecil
@@ -18,7 +18,7 @@
  *
  * @package    WP_Kecil
  * @subpackage WP_Kecil/admin
- * @author     Your Name <email@example.com>
+ * @author     Dan Borufka <dan@dropz.io>
  */
 class WP_Kecil_Admin {
 
@@ -27,16 +27,16 @@ class WP_Kecil_Admin {
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $wp_kecil    The ID of this plugin.
+	 * @var      string    $plugin_name    The ID of this plugin.
 	 */
-	private $wp_kecil;
+	private $plugin_name;
 
 	/**
 	 * The version of this plugin.
 	 *
 	 * @since    1.0.0
 	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @var      string    $version    		The current version of this plugin.
 	 */
 	private $version;
 
@@ -44,13 +44,48 @@ class WP_Kecil_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $wp_kecil       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string    $plugin_name   The name of this plugin.
+	 * @param      string    $version    	The version of this plugin.
 	 */
-	public function __construct( $wp_kecil, $version ) {
+	public function __construct( $plugin_name, $version ) {
 
-		$this->wp_kecil = $wp_kecil;
+		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+	}
+
+	public function actions() {
+
+		$success = false;
+
+		if(isset($_GET['action'])) {
+			switch ($_GET['action']) {
+				case 'wp_kecil_empty_cache':
+
+					check_admin_referer( 'wp_kecil_empty_cache' );
+
+					foreach (glob(get_home_path() . '/' . WP_KECIL_UPLOADS_DIR . '/*.*') as $file) {
+						unlink($file);
+					}
+
+					$success = 'All cached preview images from Kecil have been removed!';
+					break;
+			}
+		}
+
+		if($success) {
+			?>
+		    <div class="notice notice-success is-dismissible">
+		        <p><?php _e( $success, 'wp-kecil' ); ?></p>
+		    </div>
+    	<?php
+		}
+	}
+
+	public function action_links($links) {
+
+		$mylinks = ['<a href="' . wp_nonce_url( admin_url( 'plugins.php?action=wp_kecil_empty_cache' ), 'wp_kecil_empty_cache') . '">Empty Out Cache</a>'];
+		return array_merge( $links, $mylinks );
 
 	}
 
