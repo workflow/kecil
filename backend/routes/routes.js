@@ -9,10 +9,11 @@ const appRouter = function(app) {
     const gm = require('gm');
     const base64 = require('node-base64-image');
     const options = {localFile: true, string: true};
+    const imgPath = 'imgTmp/';
 
     function extractBase64 (img, fileExtension) {
 
-      base64.base64encoder(img, options, function (err, image) {
+      base64.base64encoder(imgPath + img, options, function (err, image) {
         if (err) {
           console.log(err);
         }
@@ -27,14 +28,16 @@ const appRouter = function(app) {
     function createThumbnail() {
       const img = gm(req.query.fileName);
       const fileExtension = path.extname(req.query.fileName).split('.').pop();
+      const crypto = require('crypto');
+      const md5Hash = crypto.createHash('md5').update(req.query.fileName).digest("hex");
 
       img.resize(40);
       img.noProfile();
-      img.write('imgTmp/test.' + fileExtension, (err) => {
+      img.write(imgPath + md5Hash + '.' + fileExtension, (err) => {
         if (err) {
           console.log(err)
         }
-        extractBase64('test.' + fileExtension, fileExtension);
+        extractBase64(md5Hash + '.' + fileExtension, fileExtension);
       });
     }
 
