@@ -58,7 +58,7 @@ function getGeneratedSvg(base64String, origWidth, origHeight) {
   const theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere = `
 
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{origWidth}}" height="{{origHeight}}" viewBox="0 0 {{origWidth}} {{origHeight}}">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${origWidth}" height="${origHeight}" viewBox="0 0 {{origWidth}} {{origHeight}}">
     <style>
         image#main {
             opacity: 0;
