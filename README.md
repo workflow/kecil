@@ -19,7 +19,7 @@ Ruby on Rails users can use a gem you can get [here](https://something.com)
 
 ### Host Kecil on your own server
 
-    Clone repository
+Clone repository
     
     Download node version > 6.2 
 
