@@ -50,6 +50,6 @@ With Ruby on Rails we have created a gem you can get [here](https://something.co
     }
     ```
     
-    If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with the returned `<svg>…</svg>` data
+    If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with the returned `<svg>…</svg>` data from the response.
     
     Then run node app.js being the server file
