@@ -8,12 +8,15 @@ const fs = require('fs');
 const baseDir = path.resolve(__dirname, '..');
 const imgTmpPath = `${baseDir}/.imgTmp`;
 
-function fetchImage(img) {
+function fetchImage(img, callback) {
   const fileExtension = path.extname(img).split('.').pop();
   const md5Hash = crypto.createHash('md5').update(img).digest('hex');
   const leImgTmpPath = `${imgTmpPath}/${md5Hash}.${fileExtension}`;
 
-  request(img).pipe(fs.createWriteStream(leImgTmpPath));
+  const requestedImg = request(img);
+  requestedImg.pipe(fs.createWriteStream(leImgTmpPath)).on('finish', () => {
+    callback(leImgTmpPath);
+  });
 }
 
 function extractBase64 (img, fileExtension) {
@@ -46,8 +49,9 @@ const appRouter = function(app) {
     const options = {localFile: true, string: true};
 
     imgs.forEach((img) => {
-      fetchImage(img);
-      //createThumbnail(img);
+      const imgPath = fetchImage(img, () => {
+        createThumbnail(imgPath);
+      });
     });
   });
 
