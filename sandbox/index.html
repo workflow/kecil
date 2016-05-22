@@ -3,29 +3,30 @@
     <title>Blur Demo</title>
     <link rel="stylesheet" href="stylesheets/kecil.css" type="text/css" media="screen">
     <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css" type="text/css" media="screen">
+    <style type="text/css" media="screen">
+      object{max-width: 100%;}
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>Kecil Image Awesomization</h1>
       <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</h2>
-      
       <hr />
-
       <div class="row">
         <div class="col-md-6">
           <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam laudantium eos minima dolor asperiores maxime voluptas itaque iure nostrum quos ipsam aliquam quasi amet repudiandae totam, vel, veniam sit repellat.</p>
           <p>Cum, quibusdam explicabo odit ut voluptatem a, sint ea vel inventore. Earum fugit architecto voluptatem itaque dolorum modi, ipsam, aliquid quod aliquam. Assumenda magnam dolorum quisquam optio dicta ex ipsum ipsa quos, nulla quas eaque, modi fugit provident iusto, blanditiis quod dignissimos. Doloribus, natus.</p>
         </div>
         <div class="col-md-6">
-          <img src="images/image.tiny.svg" style="background-image: url(images/image.orig.jpg); background-size: cover; background-position: center center; padding-top: 68.164%;" class="img-responsive" />
+          <!-- REFERENCED SVG IMAGE -->
+          <object type="image/svg+xml" data="images/image.svg" class="img-responsive"/>
+          <!-- INLINED SVG IMAGE -->
+          <!--<object type="image/svg+xml" data="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTAyNCIgaGVpZ2h0PSI2OTgiIHZpZXdCb3g9IjAgMCAxMDI0IDY5OCI+PHN0eWxlPmltYWdlI21haW57b3BhY2l0eTowO3RyYW5zaXRpb246b3BhY2l0eSAyczt9aW1hZ2UjbWFpbi5sb2FkZWR7b3BhY2l0eToxO308L3N0eWxlPjxmaWx0ZXIgaWQ9ImJsdXIiIGNvbG9yLWludGVycG9sYXRpb24tZmlsdGVycz0ic1JHQiI+PGZlR2F1c3NpYW5CbHVyIHN0ZERldmlhdGlvbj0iNjAiIGVkZ2VNb2RlPSJkdXBsaWNhdGUiLz48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjEgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48aW1hZ2UgaWQ9InRodW1iIiBmaWx0ZXI9InVybCgjYmx1cikiIHhsaW5rOmhyZWY9ImRhdGE6aW1hZ2UvanBlZztiYXNlNjQsLzlqLzRBQVFTa1pKUmdBQkFRQUFBUUFCQUFELzJ3QkRBQW9IQndnSEJnb0lDQWdMQ2dvTERoZ1FEZzBORGgwVkZoRVlJeDhsSkNJZklpRW1LemN2SmlrMEtTRWlNRUV4TkRrN1BqNCtKUzVFU1VNOFNEYzlQanYvMndCREFRb0xDdzRORGh3UUVCdzdLQ0lvT3pzN096czdPenM3T3pzN096czdPenM3T3pzN096czdPenM3T3pzN096czdPenM3T3pzN096czdPenM3T3pzN096di93Z0FSQ0FBYkFDZ0RBUkVBQWhFQkF4RUIvOFFBR1FBQUFnTUJBQUFBQUFBQUFBQUFBQUFBQlFZQ0F3UUgvOFFBR0FFQUF3RUJBQUFBQUFBQUFBQUFBQUFBQUFJREFRVC8yZ0FNQXdFQUFoQURFQUFBQU9uODVJcUFkV3FxYVF6QUhsUytzeHZMVVJUWHkwVWhkZVd3VnpQbDZWT21Ed0tBc2hFUC84UUFMaEFBQWdFRUFRSURCUWtBQUFBQUFBQUFBUUlEQUFRRkVSSUdJUkF4VVJNaVFXRnhCeFFWSXpPQmdwR3gvOW9BQ0FFQkFBRS9BRXRJSTNNcWNnNkVrQU1kZnVQalVlVGdmSkd3SE15TDV0b2NUMkJJM3Y1MWcrcURmWjJUR2J2Q1VNeDVUV3hSUGRPaHBpQURVVTZNVkh0MGNzT3dHdS85R2dRYVpPUUlKN0drejFwK0p0YXVVV2RaaEdOdW15ZDYrdFE0aUcxbWx1Rm1uazBybml6cVFkZytnM1VjRnRqc25ZMjhNQTFQS1R0bk8wNGhmTDE4elgyZTNkM1Buc21rOHdlSWMrSHdZRVN0NEhwbkt5ZFVtOWVDRDdzTHRaa1l5allVUHZzTmIzUmovSmRTQUNRZTRGTGlGZThodTVuRFBDU1YwckFEZWo2L0x6cnAzcHVYQjNkeFBOa1JkZTJMNlVROE9BTGNnTjdPOUR3REZad0ZPdmVIKzFMK2svMHE5eVYzRWRKTHgvaUt0Y2hkdklPVTdtdi94QUFsRVFBQ0FBTUhCUUVBQUFBQUFBQUFBQUFCQWdNUklRQUVFQ0F4Y1lFVElqSkJzZEgvMmdBSUFRSUJBVDhBRjNoaGd3MTNQeXd2TU14T21EV3dWZ1pscWNaSmQzanpUQmJwQlZneXJwWklTcXhZZThLendBamtpWkV0ais1Ly84UUFIeEVBQWdFRUFnTUFBQUFBQUFBQUFBQUFBUUlBQXhBaE1SRWdFa0doLzlvQUNBRURBUUUvQUlhVEJQUDFHS2tZSFFqRzdOVmM3TWRpVkFOdU1iK1dKU0U4OXYvWiIgeD0iMCIgeT0iMCIgaGVpZ2h0PSIxMDAlIiB3aWR0aD0iMTAwJSIvPjxpbWFnZSBpZD0ibWFpbiIgeGxpbms6aHJlZj0iaHR0cDovL2Nkbi5tYWdsb2Z0LmNvbS9iYmgvYXNzZXRzL2ltYWdlLm9yaWcuanBnIiB4PSIwIiB5PSIwIiBoZWlnaHQ9IjEwMCUiIHdpZHRoPSIxMDAlIiBvbmxvYWQ9InRoaXMuY2xhc3NMaXN0LmFkZCgnbG9hZGVkJyk7IiAvPjwvc3ZnPgo="/>-->
         </div>
       </div>
-      
       <hr />
-      
       <p>Perspiciatis hic architecto assumenda quod sit praesentium iure nihil, similique sapiente consequuntur modi dolorum eaque, tenetur sequi perferendis enim, veritatis earum vitae. Veritatis iure nihil perspiciatis, aspernatur reiciendis, esse quia porro fuga velit error tenetur quod voluptates recusandae quae provident beatae! Accusamus, ipsum, dolore.</p>
       <p>Commodi nulla, minus repellendus dolores enim eveniet veritatis facere ipsam nemo officia. Culpa veniam a, aperiam at. Consequuntur ducimus mollitia distinctio, perspiciatis! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex, cum, vel. Voluptates sapiente ipsam error soluta nemo neque nulla tenetur aspernatur consequatur saepe incidunt atque, non, ab nihil similique repudiandae.</p>
     </div>
-    <script src="javascripts/kecil.js" type="text/javascript" charset="utf-8"></script>
   </body>
 </html>

@@ -1,10 +1,21 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{origWidth}}" height="{{origHeight}}" viewBox="0 0 {{origWidth}} {{origHeight}}">
+    <style>
+        image#main {
+            opacity: 0;
+            transition: opacity 2s;
+        }
+        
+        image#main.loaded {
+            opacity: 1;
+        }
+    </style>
     <filter id="blur" color-interpolation-filters="sRGB">
-        <feGaussianBlur stdDeviation="30" edgeMode="duplicate"/>
+        <feGaussianBlur stdDeviation="75" edgeMode="duplicate"/>
         <feComponentTransfer>
             <feFuncA type="discrete" tableValues="1 1"/>
         </feComponentTransfer>
     </filter>
-    <image filter="url(#blur)" xlink:href="{{resizedDataURI}}" x="0" y="0" height="100%" width="100%"/>
+    <image id="thumb" filter="url(#blur)" xlink:href="{{resizedDataURI}}" x="0" y="0" height="100%" width="100%"/>
+    <image id="main" xlink:href="image.orig.jpg?delay=2000" x="0" y="0" height="100%" width="100%" onload="this.classList.add('loaded');" />
 </svg>
