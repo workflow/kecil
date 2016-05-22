@@ -29,3 +29,9 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+foreach (glob(get_home_path() . '/' . WP_KECIL_UPLOADS_DIR . '/*.*') as $file) {
+	unlink($file);
+}
+
+rmdir(get_home_path() . '/' . WP_KECIL_UPLOADS_DIR);
