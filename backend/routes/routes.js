@@ -1,6 +1,6 @@
 const appRouter = function(app) {
 
-  app.get("/resize", (req, res) => {
+  app.get("/kecilify", (req, res) => {
     const path = require('path');
 
     const baseDir = path.resolve(__dirname, '..');
