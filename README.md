@@ -23,18 +23,20 @@ Ruby on Rails users can use a gem you can get from [here](https://something.com)
 
 ### Host Kecil on your own server
 
-* Clone repository
+* Clone repository (in your terminal, run `git clone https://github.com/workflow/kecil.git`)
     
 * Download node version > 6.2 
 
-`$ cd backend`
-    
-`$ npm install`
+* Run `$ cd backend`
+
+* Run `$ npm install`
     
 * Install ImageMagick and GraphicsMagick
--> See instructions [here](https://www.npmjs.com/package/gm)
+  -> See instructions [here](https://www.npmjs.com/package/gm)
     
 * Create a script that will extract all images you want to kecilify from your html page and gather them in a **JSON format** described below.
+
+To test, run `node app.js`
     
 The **API REST endpoint** /kecilify will consume a JSON-formatted **POST request** with the following format:
     
