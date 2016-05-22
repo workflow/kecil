@@ -1,0 +1,6 @@
+/*.gem
+app/*
+tmp/*
+plugins/*
+/archive/*
+.bundle/
