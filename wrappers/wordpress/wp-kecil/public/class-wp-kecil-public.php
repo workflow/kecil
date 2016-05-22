@@ -10,8 +10,10 @@
  * @subpackage WP_Kecil/public
  */
 
-define('WP_KECIL_API_URL', 		'http://localhost:8888/abtreibung.at/fake.json');
+//define('WP_KECIL_API_URL', 		'http://kecil.magloft.com/kecilify');
+define('WP_KECIL_API_URL', 		'http://localhost:3000/kecilify');
 define('WP_KECIL_UPLOADS_DIR', 	'wp-content/uploads/kecil');
+define('WP_KECIL_CACHING', 		false);
 
 /**
  * The public-facing functionality of the plugin.
@@ -21,15 +23,15 @@ define('WP_KECIL_UPLOADS_DIR', 	'wp-content/uploads/kecil');
  *
  * @package    WP_Kecil
  * @subpackage WP_Kecil/public
- * @author     Your Name <email@example.com>
+ * @author     Dan Borufka <dan@dropz.io>
  */
 class WP_Kecil_Public {
 
 	private $plugin_name;
 	private $version;
 
-	private $html;
-	private $response;
+	public $html;
+	public $response;
 
 	public $images;
 	public $request_images;
@@ -39,20 +41,25 @@ class WP_Kecil_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name   The name of the plugin.
-	 * @param      string    $version    	The version of this plugin.
+	 * @param    string    $plugin_name  The name of the plugin.
+	 * @param    string    $version    	 The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version=1 ) {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
-		$this->request_images  = [];
-		$this->returned_images = [];
 		$this->images = [];
 		$this->response = [];
+		$this->init();
+	}
+
+	public function init() {
+		$this->request_images  = [];
+		$this->returned_images = [];
 		$this->html = '';
 
+		return $this;
 	}
 
 	public function extract_images($html) {
@@ -74,8 +81,8 @@ class WP_Kecil_Public {
 			$images[$md5]['element'] = $image;
 
 			// check for cached file and get its contents if existent
-			if(file_exists($md5_file = WP_KECIL_UPLOADS_DIR . "/$md5.svg")) {
-				$images[$md5]['svg'] = file_get_contents( $md5_file );
+			if(file_exists($md5_file = WP_KECIL_UPLOADS_DIR . "/$md5.svg") && WP_KECIL_CACHING) {
+				$images[$md5]['svg'] = addslashes(file_get_contents( $md5_file ));
 			} else {
 				$this->request_images []= $attrs['src'];
 			}
@@ -103,20 +110,26 @@ class WP_Kecil_Public {
 
 			$request = json_encode(['images' => $this->request_images]);
 
-			$params = ['http' => [ 	'method' => 'POST',
-					                'header' => "Content-type: application/json\r\n",
-					                'content' => $request ]
+			$params = ['http' => [ 'method' => 'POST',
+					               'header' => "Content-type: application/json\r\n",
+					               'content' => $request ]
          	];
 
-         	//$response = @file_get_contents(WP_KECIL_API_URL, false, stream_context_create($params));
-         	$response = @file_get_contents(WP_KECIL_API_URL);
-
+         	$response = @file_get_contents(WP_KECIL_API_URL, false, stream_context_create($params));
 			$response = @json_decode($response);
 
-			if($response->code !== 200 || !isset($response->images)) {
-				return false;
+			// echo '<h1>REQUEST:</h1>';
+   //       	echo '<pre>';
+   //       	var_dump( $request );
+   //       	echo '</pre>';
+   //       	echo '<h1>RESPONSE:</h1>';
+   //       	echo '<pre>';
+   //       	var_dump( $response );
+
+			if(!isset($response->images)) {
+				$response = false;
 			}
-			$this->response = $response;
+			$this->response = $response->images;
 		}
 		return $this;
 	}
@@ -124,14 +137,14 @@ class WP_Kecil_Public {
 	public function handle_response() {
 
 		if( $this->response ) {
-			$this->returned_images = array_merge( $this->returned_images, $this->response->images );
+			$this->returned_images = array_merge( $this->returned_images, $this->response );
 		}
 
 		foreach ($this->returned_images as $returned_image) {
 
 			$returned_image = is_array($returned_image) ? $returned_image : get_object_vars($returned_image);
 			$md5 			= $returned_image['key'];
-			$data 			= $returned_image['data'];
+			$data 			= 'data:image/svg+xml;base64,' . base64_encode($returned_image['svg']);
 			$image 			= $this->images[$md5];
 			$attrs 			= '';
 
@@ -153,22 +166,23 @@ class WP_Kecil_Public {
 
 			foreach($image as $prop => $val) {
 				if(!in_array($prop, ['src', 'element'])) {
-					$attrs .= "$prop=\"$val\" ";
+					$attrs .= "$prop='$val' ";
 				}
 			}
 
 			$this->images[$md5]['src'] 	 = $image['element'];
 			$this->images[$md5]['element'] = "<object type=\"image/svg+xml\" $attrs></object>";
 
-			$image = $this->images[$md5];
-
+			$image_out = $this->images[$md5];
 
 			// save cache file
 			if(!file_exists($md5_file = WP_KECIL_UPLOADS_DIR . "/$md5.svg")) {
-				file_put_contents($md5_file, $data);
+				if(WP_KECIL_CACHING) {
+					file_put_contents($md5_file, $data);
+				}
 			}
 
-			$this->html = str_replace($image['src'], $image['element'], $this->html);
+			$this->html = str_replace($image_out['src'], $image_out['element'], $this->html);
 		}
 		return $this->html;
 	}
@@ -180,6 +194,7 @@ class WP_Kecil_Public {
 		wp_mkdir_p( WP_KECIL_UPLOADS_DIR );
 
 		return $this
+				->init()
 				->extract_images( $html )
 				->request()
 				->get_cached_requests()
