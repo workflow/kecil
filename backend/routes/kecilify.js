@@ -12,25 +12,26 @@ function fetchImage(img, callback) {
   const fileExtension = path.extname(img).split('.').pop();
   const md5Hash = crypto.createHash('md5').update(img).digest('hex');
   const leImgTmpPath = `${imgTmpPath}/${md5Hash}.${fileExtension}`;
+  const origImgPath = img;
 
   const requestedImg = request(img);
   requestedImg.pipe(fs.createWriteStream(leImgTmpPath)).on('finish', () => {
-    callback(leImgTmpPath, fileExtension, md5Hash);
+    callback(leImgTmpPath, fileExtension, md5Hash, origImgPath);
   });
 }
 
-function getSize(img, extension, md5Hash, callback) {
+function getSize(img, extension, md5Hash, origImgPath, callback) {
   const gmImg = gm(img);
   gmImg.size((err, size) => {
     if (err) {
       console.log(err);
     } else {
-      callback(img, extension, md5Hash, size.width, size.height);
+      callback(img, extension, md5Hash, origImgPath, size.width, size.height);
     }
   });
 }
 
-function createThumbnail(img, extension, md5Hash, origWidth, origHeight, callback) {
+function createThumbnail(img, extension, md5Hash, origImgPath, origWidth, origHeight, callback) {
   const gmImg = gm(img);
   gmImg.resize(40);
   gmImg.noProfile();
@@ -38,11 +39,11 @@ function createThumbnail(img, extension, md5Hash, origWidth, origHeight, callbac
     if (err) {
       console.log(err)
     }
-    callback(img, extension, md5Hash, origWidth, origHeight);
+    callback(img, extension, md5Hash, origImgPath, origWidth, origHeight);
   });
 }
 
-function extractBase64(img, fileExtension, md5Hash, origWidth, origHeight, callback) {
+function extractBase64(img, fileExtension, md5Hash, origImgUrl, origWidth, origHeight, callback) {
   const options = { localFile: true, string: true };
 
   base64.base64encoder(img, options, (err, image) => {
@@ -50,15 +51,15 @@ function extractBase64(img, fileExtension, md5Hash, origWidth, origHeight, callb
       console.log(err);
     }
     const base64ImgString = 'data:image/' + fileExtension + ';base64,';
-    callback(base64ImgString + image, md5Hash, origWidth, origHeight);
+    callback(base64ImgString + image, md5Hash, origImgUrl, origWidth, origHeight);
   });
 }
 
-function getGeneratedSvg(base64String, origWidth, origHeight) {
+function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight) {
   const theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere = `
 
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{origWidth}}" height="{{origHeight}}" viewBox="0 0 {{origWidth}} {{origHeight}}">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${origWidth}" height="${origHeight}" viewBox="0 0 {{origWidth}} {{origHeight}}">
     <style>
         image#main {
             opacity: 0;
@@ -76,7 +77,7 @@ function getGeneratedSvg(base64String, origWidth, origHeight) {
         </feComponentTransfer>
     </filter>
     <image id="thumb" filter="url(#blur)" xlink:href="${base64String}" x="0" y="0" height="100%" width="100%"/>
-    <image id="main" xlink:href="image.orig.jpg?delay=2000" x="0" y="0" height="100%" width="100%" onload="this.classList.add('loaded');" />
+    <image id="main" xlink:href="${origImgUrl}" x="0" y="0" height="100%" width="100%" onload="this.classList.add('loaded');" />
 </svg>
             `;
 
@@ -95,11 +96,11 @@ const appRouter = function(app) {
     let imgsProcessed = 0;
 
     imgs.forEach((img) => {
-      fetchImage(img, (imgPath, extension, md5Hash) => {
-        getSize(imgPath, extension, md5Hash, (imgPath, extension, md5Hash, origWidth, origHeight) => {
-          createThumbnail(imgPath, extension, md5Hash, origWidth, origHeight, (img, extension, md5Hash, origWidth, origHeight) => {
-            extractBase64(img, extension, md5Hash, origWidth, origHeight, (base64StringYo, md5Hash, origWidth, origHeight) => {
-              const weWillSendThisBackNowCepatCepat = getGeneratedSvg(base64StringYo, origWidth, origHeight);
+      fetchImage(img, (imgPath, extension, md5Hash, origImgUrl) => {
+        getSize(imgPath, extension, md5Hash, origImgUrl, (imgPath, extension, md5Hash, origImgUrl, origWidth, origHeight) => {
+          createThumbnail(imgPath, extension, md5Hash, origImgUrl, origWidth, origHeight, (img, extension, md5Hash, origImgUrl, origWidth, origHeight) => {
+            extractBase64(img, extension, md5Hash, origImgUrl, origWidth, origHeight, (base64StringYo, md5Hash, origImgUrl, origWidth, origHeight) => {
+              const weWillSendThisBackNowCepatCepat = getGeneratedSvg(base64StringYo, origImgUrl, origWidth, origHeight);
 
               response.images.push({
                 key: md5Hash,
