@@ -8,16 +8,33 @@ const fs = require('fs');
 const baseDir = path.resolve(__dirname, '..');
 const imgTmpPath = `${baseDir}/.imgTmp`;
 
-function fetchImage(img) {
+function fetchImage(img, callback) {
   const fileExtension = path.extname(img).split('.').pop();
   const md5Hash = crypto.createHash('md5').update(img).digest('hex');
   const leImgTmpPath = `${imgTmpPath}/${md5Hash}.${fileExtension}`;
 
-  request(img).pipe(fs.createWriteStream(leImgTmpPath));
+  const requestedImg = request(img);
+  requestedImg.pipe(fs.createWriteStream(leImgTmpPath)).on('finish', () => {
+    callback(leImgTmpPath, fileExtension);
+  });
+}
+
+function createThumbnail(img, extension, callback) {
+  const gmImg = gm(img);
+  gmImg.resize(40);
+  gmImg.noProfile();
+  gmImg.write(img, (err) => {
+    if (err) {
+      console.log(err)
+    }
+    callback(img, extension);
+  });
 }
 
 function extractBase64 (img, fileExtension) {
-  base64.base64encoder(imgTmpPath + img, options, function (err, image) {
+  const options = {localFile: true, string: true};
+
+  base64.base64encoder(img, options, (err, image) => {
     if (err) {
       console.log(err);
     }
@@ -26,28 +43,17 @@ function extractBase64 (img, fileExtension) {
   });
 }
 
-function createThumbnail(img) {
-  const gmImg = gm(img);
-  gmImg.resize(40);
-  gmImg.noProfile();
-  gmImg.write(img, (err) => {
-    if (err) {
-      console.log(err)
-    }
-    // callback here
-    //extractBase64(md5Hash + '.' + fileExtension, fileExtension);
-  });
-}
-
 const appRouter = function(app) {
 
   app.post("/kecilify", (req, res) => {
     const imgs = req.body.images;
-    const options = {localFile: true, string: true};
 
     imgs.forEach((img) => {
-      fetchImage(img);
-      //createThumbnail(img);
+      fetchImage(img, (imgPath, extension) => {
+        createThumbnail(imgPath, extension, (img, extension) => {
+          extractBase64(img, extension);
+        });
+      });
     });
   });
 
