@@ -15,12 +15,26 @@ function fetchImage(img, callback) {
 
   const requestedImg = request(img);
   requestedImg.pipe(fs.createWriteStream(leImgTmpPath)).on('finish', () => {
-    callback(leImgTmpPath);
+    callback(leImgTmpPath, fileExtension);
+  });
+}
+
+function createThumbnail(img, extension, callback) {
+  const gmImg = gm(img);
+  gmImg.resize(40);
+  gmImg.noProfile();
+  gmImg.write(img, (err) => {
+    if (err) {
+      console.log(err)
+    }
+    callback(img, extension);
   });
 }
 
 function extractBase64 (img, fileExtension) {
-  base64.base64encoder(imgTmpPath + img, options, function (err, image) {
+  const options = {localFile: true, string: true};
+
+  base64.base64encoder(img, options, (err, image) => {
     if (err) {
       console.log(err);
     }
@@ -29,29 +43,16 @@ function extractBase64 (img, fileExtension) {
   });
 }
 
-function createThumbnail(img) {
-  const gmImg = gm(img);
-  gmImg.resize(40);
-  gmImg.noProfile();
-  console.log(img);
-  gmImg.write(img, (err) => {
-    if (err) {
-      console.log(err)
-    }
-    // callback here
-    //extractBase64(md5Hash + '.' + fileExtension, fileExtension);
-  });
-}
-
 const appRouter = function(app) {
 
   app.post("/kecilify", (req, res) => {
     const imgs = req.body.images;
-    const options = {localFile: true, string: true};
 
     imgs.forEach((img) => {
-      fetchImage(img, (imgPath) => {
-        createThumbnail(imgPath);
+      fetchImage(img, (imgPath, extension) => {
+        createThumbnail(imgPath, extension, (img, extension) => {
+          extractBase64(img, extension);
+        });
       });
     });
   });
