@@ -69,7 +69,7 @@ function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight) {
         }
     </style>
     <filter id="blur" color-interpolation-filters="sRGB">
-        <feGaussianBlur stdDeviation="75" edgeMode="duplicate"/>
+        <feGaussianBlur stdDeviation="50" edgeMode="duplicate"/>
         <feComponentTransfer>
             <feFuncA type="discrete" tableValues="1 1"/>
         </feComponentTransfer>
