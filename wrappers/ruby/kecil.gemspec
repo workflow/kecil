@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = '~> 2.4'
   s.add_dependency "bundler", '>= 1.3.0', '< 2.0'
   s.add_runtime_dependency "typhoeus", "~> 1.0"
-  s.add_runtime_dependency "addressable", "~> 2.4"
+  s.add_runtime_dependency "addressable", "~> 2.3"
   s.add_development_dependency "rspec", "~> 3.3"
   s.add_development_dependency "pry", "~> 0.10"
   s.files        = `git ls-files`.split("\n")
