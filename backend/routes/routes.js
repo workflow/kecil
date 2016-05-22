@@ -16,7 +16,7 @@ const appRouter = function(app) {
         if (err) {
           console.log(err);
         }
-        const base64ImgString = 'data:image/' + fileExtension + ';base64,';
+        let base64ImgString = 'data:image/' + fileExtension + ';base64,';
         console.log(base64ImgString + image);
       });
 
@@ -25,12 +25,12 @@ const appRouter = function(app) {
     // =TODO= Get argument
 
     function createThumbnail() {
-      const img = gm(req.query.fileName);
-      const fileExtension = path.extname(req.query.fileName).split('.').pop();
+      let img = gm(req.query.fileName);
+      let fileExtension = path.extname(req.query.fileName).split('.').pop();
 
       img.resize(40);
       img.noProfile();
-      img.write('test.' + fileExtension, (err) => {
+      img.write('imgTmp/test.' + fileExtension, (err) => {
         if (err) {
           console.log(err)
         }
