@@ -80,6 +80,8 @@ const appRouter = function(app) {
     let response = {
       images: [],
     };
+    // =TODO= =REFACTOR= http://stackoverflow.com/questions/18983138/callback-after-all-asynchronous-foreach-callbacks-are-completed
+    let imgsProcessed = 0;
 
     imgs.forEach((img) => {
       fetchImage(img, (imgPath, extension, md5Hash) => {
@@ -93,13 +95,16 @@ const appRouter = function(app) {
               width: 200,
               height: 200,
             });
+            imgsProcessed++;
+
+            if (imgsProcessed === imgs.length) {
+              res.send(JSON.stringify(response));
+            }
           });
         });
       });
     });
 
-    //console.log(response);
-    //res.send(response);
 
   });
 
