@@ -81,8 +81,8 @@ function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight, md5Has
             `;
 
   const optimizer = new svgo();
-  const optimizedSvg = optimizer.optimize(theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere, (res) => {
-    callback(res, origWidth, origHeight, md5Hash);
+  optimizer.optimize(theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere, (res) => {
+    callback(res.data, origWidth, origHeight, md5Hash);
   });
 }
 
