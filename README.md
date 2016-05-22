@@ -21,35 +21,35 @@ Ruby on Rails users can use a gem you can get [here](https://something.com)
 
 Clone repository
     
-    Download node version > 6.2 
+Download node version > 6.2 
 
-    `$ cd backend`
+`$ cd backend`
     
-    `$ npm install`
+`$ npm install`
     
-    install imagemagick and graphicsmagick
-    see instructions [here](https://www.npmjs.com/package/gm)
+install imagemagick and graphicsmagick
+see instructions [here](https://www.npmjs.com/package/gm)
     
-    Create a script that will extract all images you want to kecilify from your html page and gather them in a JSON format described below.
+Create a script that will extract all images you want to kecilify from your html page and gather them in a JSON format described below.
     
-    The api rest endpoint /kecilify will consume a POST request with a JSON with the format:
+The api rest endpoint /kecilify will consume a POST request with a JSON with the format:
     
-    ```JSON
-    {
-        "images": ["http://…jpg", ]
-    }
-    ```
+```JSON
+{
+    "images": ["http://…jpg", ]
+}
+```
     
-    And it will return a JSON with the format:
+And it will return a JSON with the format:
     
-    ```JSON
-    {
-        "images": [{"key":"h5acd984ab4ac457", "data":"data:image/svg+xml;charset=UTF-8,<svg>…</svg>", "width": 300, "height": 200}, ]
-    }
-    ```
+```JSON
+{
+    "images": [{"key":"h5acd984ab4ac457", "data":"data:image/svg+xml;charset=UTF-8,<svg>…</svg>", "width": 300, "height": 200}, ]
+}
+```
     
-    If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with an object element in your html like so: `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">` 
+If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with an object element in your html like so: `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">` 
     
-    Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the JSON response.
+Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the JSON response.
     
-    Then run `node app.js` on the server
+Then run `node app.js` on the server
