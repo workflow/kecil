@@ -49,6 +49,7 @@ Ruby on Rails users can use a gem you can get [here](https://something.com)
     ```
     
     If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with an object element in your html like so: `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">` 
-    using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the response.
+    
+    Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the JSON response.
     
     Then run `node app.js` on the server
