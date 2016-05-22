@@ -15,7 +15,7 @@ Kecil can be used in a couple of different ways:
 
 ### Wordpress Plugin:
 
-We have created a Wordpress wrapper you can download [here](https://something.com).
+We have created a Wordpress wrapper you can download [here](https://github.com/danborufka/wp-kecil).
 
 ### Ruby on Rails Gem:
 
