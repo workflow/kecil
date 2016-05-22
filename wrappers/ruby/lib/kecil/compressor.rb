@@ -22,12 +22,17 @@ module Kecil
       end
       
       # Transpose images via api
-      images = scanner.uncached_assets.map{|key, asset| [asset.key, asset.url]}.to_h
+      images = scanner.uncached_assets.map{|key, asset| asset.url}
       if images.size > 0
-        response = Typhoeus.post(@options[:backend], body: images, headers: { 'Content-Type' => "application/json"})
-        data = JSON.parse(response.body)
-      
+        response = Typhoeus.post(@options[:backend], body: JSON.dump({images: images}), headers: { 
+          'Accept-Encoding' => 'application/json',
+          'Content-Type' => "application/json"
+        }, followlocation: true)
+        
+        return html if response.code != 200
+        
         # Replace image tags
+        data = JSON.parse(response.body)
         data["images"].each do |image|
           if asset = scanner.assets[image["key"]]
             # Import data into asset
