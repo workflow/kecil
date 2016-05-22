@@ -4,6 +4,7 @@ const base64 = require('node-base64-image');
 const crypto = require('crypto');
 const request = require('request');
 const fs = require('fs');
+const svgo = require('svgo');
 
 const baseDir = path.resolve(__dirname, '..');
 const imgTmpPath = `${baseDir}/.imgTmp`;
@@ -55,7 +56,7 @@ function extractBase64(img, fileExtension, md5Hash, origImgUrl, origWidth, origH
   });
 }
 
-function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight) {
+function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight, md5Hash, callback) {
   const theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere = `<?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${origWidth}" height="${origHeight}" viewBox="0 0 {{origWidth}} {{origHeight}}">
     <style>
@@ -79,8 +80,10 @@ function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight) {
 </svg>
             `;
 
-  //console.log(theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere)
-  return theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere;
+  const optimizer = new svgo();
+  const optimizedSvg = optimizer.optimize(theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere, (res) => {
+    callback(res, origWidth, origHeight, md5Hash);
+  });
 }
 
 const appRouter = function(app) {
@@ -93,24 +96,29 @@ const appRouter = function(app) {
     // =TODO= =REFACTOR= http://stackoverflow.com/questions/18983138/callback-after-all-asynchronous-foreach-callbacks-are-completed
     let imgsProcessed = 0;
 
+    // Create temp caching dir if it doesn't already exist
+    if (!fs.existsSync(imgTmpPath)){
+      fs.mkdirSync(imgTmpPath);
+    }
+
     imgs.forEach((img) => {
       fetchImage(img, (imgPath, extension, md5Hash, origImgUrl) => {
         getSize(imgPath, extension, md5Hash, origImgUrl, (imgPath, extension, md5Hash, origImgUrl, origWidth, origHeight) => {
           createThumbnail(imgPath, extension, md5Hash, origImgUrl, origWidth, origHeight, (img, extension, md5Hash, origImgUrl, origWidth, origHeight) => {
             extractBase64(img, extension, md5Hash, origImgUrl, origWidth, origHeight, (base64StringYo, md5Hash, origImgUrl, origWidth, origHeight) => {
-              const weWillSendThisBackNowCepatCepat = getGeneratedSvg(base64StringYo, origImgUrl, origWidth, origHeight);
+              getGeneratedSvg(base64StringYo, origImgUrl, origWidth, origHeight, md5Hash, (optimizedSvg, origWidth, origHeight, md5Hash) => {
+                response.images.push({
+                  key: md5Hash,
+                  svg: optimizedSvg,
+                  width: origWidth,
+                  height: origHeight,
+                });
+                imgsProcessed++;
 
-              response.images.push({
-                key: md5Hash,
-                svg: weWillSendThisBackNowCepatCepat,
-                width: origWidth,
-                height: origHeight,
+                if (imgsProcessed === imgs.length) {
+                  res.send(JSON.stringify(response));
+                }
               });
-              imgsProcessed++;
-
-              if (imgsProcessed === imgs.length) {
-                res.send(JSON.stringify(response));
-              }
             });
           });
         });
