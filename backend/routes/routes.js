@@ -1,6 +1,6 @@
 const appRouter = function(app) {
 
-  app.get("/kecilify", (req, res) => {
+  app.post("/kecilify", (req, res) => {
     const path = require('path');
 
     const baseDir = path.resolve(__dirname, '..');
@@ -16,7 +16,7 @@ const appRouter = function(app) {
         if (err) {
           console.log(err);
         }
-        let base64ImgString = 'data:image/' + fileExtension + ';base64,';
+        const base64ImgString = 'data:image/' + fileExtension + ';base64,';
         console.log(base64ImgString + image);
       });
 
@@ -25,8 +25,8 @@ const appRouter = function(app) {
     // =TODO= Get argument
 
     function createThumbnail() {
-      let img = gm(req.query.fileName);
-      let fileExtension = path.extname(req.query.fileName).split('.').pop();
+      const img = gm(req.query.fileName);
+      const fileExtension = path.extname(req.query.fileName).split('.').pop();
 
       img.resize(40);
       img.noProfile();
