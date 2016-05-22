@@ -44,7 +44,7 @@ The **API REST endpoint** /kecilify will consume a JSON-formatted **POST request
 }
 ```
 
-An example is added: 
+An example can be found using: 
 
 ```CURL
 $ curl -d @backend/sample/sample-api-request.json --header "Content-Type: application/json" http://localhost:3000/kecilify
