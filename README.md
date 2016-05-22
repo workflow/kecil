@@ -43,6 +43,12 @@ The **API REST endpoint** /kecilify will consume a JSON-formatted **POST request
     "images": ["http://…jpg", ]
 }
 ```
+
+An example is added: 
+
+```CURL
+$ curl -d @backend/sample/sample-api-request.json --header "Content-Type: application/json" http://localhost:3000/kecilify
+```
     
 … And will return a JSON with the format:
     
