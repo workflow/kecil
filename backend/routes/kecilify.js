@@ -96,6 +96,11 @@ const appRouter = function(app) {
     // =TODO= =REFACTOR= http://stackoverflow.com/questions/18983138/callback-after-all-asynchronous-foreach-callbacks-are-completed
     let imgsProcessed = 0;
 
+    // Create temp caching dir if it doesn't already exist
+    if (!fs.existsSync(imgTmpPath)){
+      fs.mkdirSync(imgTmpPath);
+    }
+
     imgs.forEach((img) => {
       fetchImage(img, (imgPath, extension, md5Hash, origImgUrl) => {
         getSize(imgPath, extension, md5Hash, origImgUrl, (imgPath, extension, md5Hash, origImgUrl, origWidth, origHeight) => {
