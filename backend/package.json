@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "gm": "^1.22.0",
-    "commander": "^2.9.0"
-  },
+    "body-parser": "^1.15.1",
+    "commander": "^2.9.0",
+    "express": "^4.13.4",
+    "gm": "^1.22.0"
+  }
 }
