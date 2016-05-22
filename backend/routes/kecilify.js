@@ -33,6 +33,7 @@ function createThumbnail(img) {
   const gmImg = gm(img);
   gmImg.resize(40);
   gmImg.noProfile();
+  console.log(img);
   gmImg.write(img, (err) => {
     if (err) {
       console.log(err)
@@ -49,7 +50,7 @@ const appRouter = function(app) {
     const options = {localFile: true, string: true};
 
     imgs.forEach((img) => {
-      const imgPath = fetchImage(img, () => {
+      fetchImage(img, (imgPath) => {
         createThumbnail(imgPath);
       });
     });
