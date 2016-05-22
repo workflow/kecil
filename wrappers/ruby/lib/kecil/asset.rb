@@ -32,7 +32,7 @@ module Kecil
     end
     
     def object
-      "<object type=\"image/svg+xml\" data=\"data:image/svg+xml;base64,#{svg_encoded}\"/>"
+      "<object type=\"image/svg+xml\" data=\"data:image/svg+xml;base64,#{svg_encoded}\"></object>"
     end
     
     def cache_filename
