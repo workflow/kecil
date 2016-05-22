@@ -49,8 +49,43 @@ class WP_Kecil_Admin {
 	 */
 	public function __construct( $wp_kecil, $version ) {
 
-		$this->wp_kecil = $wp_kecil;
+		$this->plugin_name = $wp_kecil;
 		$this->version = $version;
+
+	}
+
+	public function actions() {
+
+		$success = false;
+
+		if(isset($_GET['action'])) {
+			switch ($_GET['action']) {
+				case 'wp_kecil_empty_cache':
+
+					check_admin_referer( 'wp_kecil_empty_cache' );
+
+					foreach (glob(get_home_path() . '/' . WP_KECIL_UPLOADS_DIR . '/*.*') as $file) {
+						unlink($file);
+					}
+
+					$success = 'All cached preview images from Kecil have been removed!';
+					break;
+			}
+		}
+
+		if($success) {
+			?>
+		    <div class="notice notice-success is-dismissible">
+		        <p><?php _e( $success, 'wp-kecil' ); ?></p>
+		    </div>
+    	<?php
+		}
+	}
+
+	public function action_links($links) {
+
+		$mylinks = ['<a href="' . wp_nonce_url( admin_url( 'plugins.php?action=wp_kecil_empty_cache' ), 'wp_kecil_empty_cache') . '">Empty Out Cache</a>'];
+		return array_merge( $links, $mylinks );
 
 	}
 
