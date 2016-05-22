@@ -56,9 +56,7 @@ function extractBase64(img, fileExtension, md5Hash, origImgUrl, origWidth, origH
 }
 
 function getGeneratedSvg(base64String, origImgUrl, origWidth, origHeight) {
-  const theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere = `
-
-<?xml version="1.0"?>
+  const theMostAwesomeReturnStringThatShouldRlyGoIntoARealTemplateSomewhere = `<?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${origWidth}" height="${origHeight}" viewBox="0 0 {{origWidth}} {{origHeight}}">
     <style>
         image#main {
