@@ -44,10 +44,11 @@ Ruby on Rails users can use a gem you can get [here](https://something.com)
     
     ```JSON
     {
-        "images": [{"key":"h5acd984ab4ac457", "data":"<svg>…</svg>", "width": 300, "height": 200}, ]
+        "images": [{"key":"h5acd984ab4ac457", "data":"data:image/svg+xml;charset=UTF-8,<svg>…</svg>", "width": 300, "height": 200}, ]
     }
     ```
     
-    If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with an object element using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the response> `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">`
+    If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with an object element in your html like so: `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">` 
+    using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the response.
     
     Then run `node app.js` on the server
