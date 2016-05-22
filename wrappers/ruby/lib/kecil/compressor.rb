@@ -1,9 +1,9 @@
+require "kecil/scanner"
+require "json"
 require "typhoeus"
-require "addressable/uri"
 
 module Kecil
   class Compressor
-    IMAGE_PATTERN = 
     
     def initialize(options={})
       @options = options
@@ -11,24 +11,36 @@ module Kecil
 
     def compress(html, env)
       return html if not @options[:enabled] or html.nil? or html.length == 0
+      req = ::Rack::Request.new(env)
       
       # Prepare request information
-      req = ::Rack::Request.new(env)
-      req_uri = Addressable::URI.parse(req.url)
-      root_uri = env["REQUEST_URI"];
+      scanner = Scanner.new(html, origin: req.url, cache_dir: @options[:cache_dir])
       
-      # Build image data
-      image_data = {}
-      html.scan(/(<img.*src="([^"]+)"\/?[^>]+>)/).each do |(tag, url)|
-        uri = Addressable::URI.parse(url)
-        uri = req_uri.join(uri) if uri.relative?
-        md5 = Digest::MD5.new.update(uri).hexdigest
-        image_data[md5] = uri.to_s
+      # Handle cached assets
+      scanner.cached_assets.each do |key, asset|
+        html.gsub!(asset.tag, asset.object)
       end
       
       # Transpose images via api
-      # curl -d @backend/sample/sample-api-request.json --header "Content-Type: application/json" http://localhost:3000/kecilify
-      # response = Typhoeus.post(@options[:backend], body: image_data)
+      images = scanner.uncached_assets.map{|key, asset| [asset.key, asset.url]}.to_h
+      if images.size > 0
+        response = Typhoeus.post(@options[:backend], body: images, headers: { 'Content-Type' => "application/json"})
+        data = JSON.parse(response.body)
+      
+        # Replace image tags
+        data["images"].each do |image|
+          if asset = scanner.assets[image["key"]]
+            # Import data into asset
+            asset.import(image)
+        
+            # Replace html
+            html.gsub!(asset.tag, asset.object)
+        
+            # Cache asset
+            asset.cache!
+          end
+        end
+      end
 
       html
     end

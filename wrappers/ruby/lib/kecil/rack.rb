@@ -5,7 +5,7 @@ module Kecil
     DEFAULT_OPTIONS = {
       enabled: true,
       cache_dir: "cache/kecil",
-      backend: "http://localhost:8080/images"
+      backend: "http://localhost:8080/kecilify"
     }
 
     def initialize(app, options={})
