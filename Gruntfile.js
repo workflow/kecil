@@ -1,3 +1,6 @@
+var url = require('url');
+var serveStatic = require('serve-static');
+
 module.exports = function (grunt) {
   'use strict';
   
@@ -9,15 +12,27 @@ module.exports = function (grunt) {
         options: {
           port: 8080,
           base: '.',
-          keepalive: true
+          keepalive: true,
+          middleware: function(connect, options, middlwares) {
+            return [
+              function(req, res, next) {
+                var parts = url.parse(req.url, true);
+                var query = parts.query;
+                if(query.delay) {
+                  setTimeout(function() {
+                    return next(false);
+                  }, parseInt(query.delay));
+                }else{
+                  return next(false);
+                }
+              },
+              serveStatic(options.base[0])
+            ];
+          }
         }
       }
-    },
-    kecil: {
-      files: "images/*.jpg"
     }
   });
   
   grunt.registerTask("serve", ['connect']);
-  
 };
