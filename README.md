@@ -52,7 +52,10 @@ The **API REST endpoint** /kecilify will consume a JSON-formatted **POST request
 }
 ```
     
-If you are not using any of Kecil's wrappers, you will need to replace the `<img ... />` with an object element in your html like so: `<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">` 
+If you are not using any of Kecil's wrappers, you will need to replace the `<img ... />` with an object element in your HTML like so: 
+````html
+<object type="image/svg+xml" data="data:image/svg+xml;charset=UTF-8,<svg>…</svg>">
+````
     
 Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from the JSON response.
     
