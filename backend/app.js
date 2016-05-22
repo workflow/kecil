@@ -1,15 +1,12 @@
-#!/usr/bin/env node
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
 
-/**
- * Kecil Command Line Dashboard
- */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const program = require('commander');
+const routes = require("./routes/routes.js")(app);
 
-program
-  .version('0.1.0');
-
-program
-  .command('resize [cmd]', 'Available Subcommands: ')
-
-program.parse(process.argv);
+const server = app.listen(3000, () => {
+    console.log("Listening on port %s...", server.address().port);
+});
