@@ -4,7 +4,7 @@ Kecil is an implementation that allows you to achieve the "Medium Image loading 
 
 ![Image blur](https://css-tricks.com/wp-content/uploads/2015/12/blur.gif)
 
-This will help load your webpage a lot faster while maintaining the finished layout without the page jumping
+This will help load your webpage a lot faster while maintaining the finished layout without the page jumping around confusing your users like this ->
 
 ![Jumping webpage](http://aspiringwebdev.com/wp-content/uploads/2015/03/meal-plan-load-no-padding-bottom.gif)
 
