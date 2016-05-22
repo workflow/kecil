@@ -1,4 +1,6 @@
-# Kecil Image Awesomization
+# Medium like blur up image lazy loader
+
+
 
 ## Development
 
