@@ -32,6 +32,8 @@ With Ruby on Rails we have created a gem you can get [here](https://something.co
     install imagemagick and graphicsmagick
     see instructions [here](https://www.npmjs.com/package/gm)
     
+    Create a script that will extract all images you want to kecilify from your html page and gather them in a JSON format described below.
+    
     The api rest endpoint /kecilify will consume a POST request with a JSON with the format:
     
     ```JSON
@@ -48,6 +50,6 @@ With Ruby on Rails we have created a gem you can get [here](https://something.co
     }
     ```
     
-    If you are not using any of Kecil's wrappers you will need to replace the <img ... /> with the returned <svg>…</svg> data
+    If you are not using any of Kecil's wrappers you will need to replace the `<img ... />` with the returned `<svg>…</svg>` data
     
-    Then run your node however you wish with app.js being the server file
+    Then run node app.js being the server file
