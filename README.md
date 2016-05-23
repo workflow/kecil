@@ -1,6 +1,6 @@
 # Kecil Image Lazy Loader with Blurred Previews
 
-Kecil is an implementation that allows you to achieve the "blurry image loading effect" (as seen on Medium) with very little effort. Read more about it [here](https://jmperezperez.com/medium-image-progressive-loading-placeholder). Kecil resizes your images and creates a **nice blur effect** on the smaller images until the larger versions are finished loading. The larger images will fade in as soon as they are available.
+Kecil is an implementation that allows you to achieve the "blurry image loading effect" ([as seen on Medium](https://jmperezperez.com/medium-image-progressive-loading-placeholder)) with very little effort. Kecil resizes your images and creates a **nice blur effect** on the smaller images until the larger versions are finished loading. The larger images will fade in as soon as they are available.
 
 This will help load your webpage **a lot faster** while keeping the finished layout from breaking during loading as seen here:
 
