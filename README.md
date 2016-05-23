@@ -69,5 +69,19 @@ Using the returned `data:image/svg+xml;charset=UTF-8,<svg>…</svg>` data from t
     
 Then run `node app.js` on the server and see the magic happen!
 
+
+## Limitations
+
+Kecil takes care of your images and intends you to use object tags instead. Be aware that **any CSS** addressing images directly via the **tagname selector**: 
+````css
+img { … }
+````
+ …will not take effect on the objects unless you add them accordingly: 
+ ````css
+ img, object { … }
+ ```` 
+ We strongly recommend using classes in such cases, as Kecil's wrapper *do* let the resulting objects inherit all attributes from the original image.
+ In the future, Kecil shall replace the objects back with images once loading is finished so advantages of the image tag can still be leveraged.
+
 ![Kecil Logo](https://cloud.githubusercontent.com/assets/8395474/15454561/f2104a32-206e-11e6-957a-d5b660e95d8b.png)   
 (The Kecil Logo)
