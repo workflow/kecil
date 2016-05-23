@@ -11,6 +11,8 @@ With Kecil :)   | Without Kecil :(
 
 ## Usage
 
+At this point, Kecil works without JavaScript. Simply put, it preprocesses your images and creates SVG drop-ins to use instead of your original images.
+
 Kecil can be used in a couple of different ways:
 
 ### Wordpress Plugin:
